@@ -1,3 +1,3 @@
 pub mod events;
-pub use events::{VRChatEvent, Gesture, TrackingType, Upright, Viseme};
 
+pub use events::{Gesture, TrackingType, Upright, VRChatEvent, Viseme};
