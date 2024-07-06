@@ -1,7 +1,10 @@
-use rosc::{OscMessage, OscType};
+use rosc::OscMessage;
 use strum::{EnumString, VariantNames};
 
-use crate::vrchat::{Gesture, TrackingType, Upright, Viseme};
+use crate::{
+    vrchat::{Gesture, TrackingType, Upright, Viseme},
+    VrcType,
+};
 
 /// Avatar Parameters
 /// https://creators.vrchat.com/avatars/animator-parameters/#parameters
@@ -73,72 +76,72 @@ pub enum VRChatEvent {
 }
 
 impl VRChatEvent {
-    /// Set the value to the given `OscType`
+    /// Set the value to the given
     /// Do nothing if the value type is not matching
-    pub fn set_value(&mut self, value: &OscType) {
+    pub fn set_value(&mut self, value: &VrcType) {
         *self = match self {
-            VRChatEvent::IsLocal(_) if let OscType::Bool(v) = value => VRChatEvent::IsLocal(*v),
-            VRChatEvent::Viseme(_) if let OscType::Int(v) = value => {
-                VRChatEvent::Viseme(Viseme::from(*v as u8))
+            VRChatEvent::IsLocal(_) if let VrcType::Bool(v) = value => VRChatEvent::IsLocal(*v),
+            VRChatEvent::Viseme(_) if let VrcType::Int(v) = value => {
+                VRChatEvent::Viseme(Viseme::from(*v))
             }
-            VRChatEvent::Voice(_) if let OscType::Float(v) = value => VRChatEvent::Voice(*v),
-            VRChatEvent::GestureLeft(_) if let OscType::Int(v) = value => {
-                VRChatEvent::GestureLeft(Gesture::from(*v as u8))
+            VRChatEvent::Voice(_) if let VrcType::Float(v) = value => VRChatEvent::Voice(*v),
+            VRChatEvent::GestureLeft(_) if let VrcType::Int(v) = value => {
+                VRChatEvent::GestureLeft(Gesture::from(*v))
             }
-            VRChatEvent::GestureRight(_) if let OscType::Int(v) = value => {
-                VRChatEvent::GestureRight(Gesture::from(*v as u8))
+            VRChatEvent::GestureRight(_) if let VrcType::Int(v) = value => {
+                VRChatEvent::GestureRight(Gesture::from(*v))
             }
-            VRChatEvent::GestureLeftWeight(_) if let OscType::Float(v) = value => {
+            VRChatEvent::GestureLeftWeight(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::GestureLeftWeight(*v)
             }
-            VRChatEvent::GestureRightWeight(_) if let OscType::Float(v) = value => {
+            VRChatEvent::GestureRightWeight(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::GestureRightWeight(*v)
             }
-            VRChatEvent::AngularY(_) if let OscType::Float(v) = value => VRChatEvent::AngularY(*v),
-            VRChatEvent::VelocityX(_) if let OscType::Float(v) = value => {
+            VRChatEvent::AngularY(_) if let VrcType::Float(v) = value => VRChatEvent::AngularY(*v),
+            VRChatEvent::VelocityX(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::VelocityX(*v)
             }
-            VRChatEvent::VelocityY(_) if let OscType::Float(v) = value => {
+            VRChatEvent::VelocityY(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::VelocityY(*v)
             }
-            VRChatEvent::VelocityZ(_) if let OscType::Float(v) = value => {
+            VRChatEvent::VelocityZ(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::VelocityZ(*v)
             }
-            VRChatEvent::VelocityMagnitude(_) if let OscType::Float(v) = value => {
+            VRChatEvent::VelocityMagnitude(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::VelocityMagnitude(*v)
             }
-            VRChatEvent::Upright(_) if let OscType::Float(v) = value => {
+            VRChatEvent::Upright(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::Upright(Upright::from(*v))
             }
-            VRChatEvent::Grounded(_) if let OscType::Bool(v) = value => VRChatEvent::Grounded(*v),
-            VRChatEvent::Seated(_) if let OscType::Bool(v) = value => VRChatEvent::Seated(*v),
-            VRChatEvent::AFK(_) if let OscType::Bool(v) = value => VRChatEvent::AFK(*v),
-            VRChatEvent::TrackingType(_) if let OscType::Int(v) = value => {
-                VRChatEvent::TrackingType(TrackingType::from(*v as u8))
+            VRChatEvent::Grounded(_) if let VrcType::Bool(v) = value => VRChatEvent::Grounded(*v),
+            VRChatEvent::Seated(_) if let VrcType::Bool(v) = value => VRChatEvent::Seated(*v),
+            VRChatEvent::AFK(_) if let VrcType::Bool(v) = value => VRChatEvent::AFK(*v),
+            VRChatEvent::TrackingType(_) if let VrcType::Int(v) = value => {
+                VRChatEvent::TrackingType(TrackingType::from(*v))
             }
-            VRChatEvent::VRMode(_) if let OscType::Int(v) = value => VRChatEvent::VRMode(*v as u8),
-            VRChatEvent::MuteSelf(_) if let OscType::Bool(v) = value => VRChatEvent::MuteSelf(*v),
-            VRChatEvent::InStation(_) if let OscType::Bool(v) = value => VRChatEvent::InStation(*v),
-            VRChatEvent::Earmuffs(_) if let OscType::Bool(v) = value => VRChatEvent::Earmuffs(*v),
-            VRChatEvent::ScaleModified(_) if let OscType::Bool(v) = value => {
+            VRChatEvent::VRMode(_) if let VrcType::Int(v) = value => VRChatEvent::VRMode(*v),
+            VRChatEvent::MuteSelf(_) if let VrcType::Bool(v) = value => VRChatEvent::MuteSelf(*v),
+            VRChatEvent::InStation(_) if let VrcType::Bool(v) = value => VRChatEvent::InStation(*v),
+            VRChatEvent::Earmuffs(_) if let VrcType::Bool(v) = value => VRChatEvent::Earmuffs(*v),
+            VRChatEvent::ScaleModified(_) if let VrcType::Bool(v) = value => {
                 VRChatEvent::ScaleModified(*v)
             }
-            VRChatEvent::ScaleFactor(_) if let OscType::Float(v) = value => {
+            VRChatEvent::ScaleFactor(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::ScaleFactor(*v)
             }
-            VRChatEvent::EyeHeightAsMeters(_) if let OscType::Float(v) = value => {
+            VRChatEvent::EyeHeightAsMeters(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::EyeHeightAsMeters(*v)
             }
-            VRChatEvent::EyeHeightAsPercent(_) if let OscType::Float(v) = value => {
+            VRChatEvent::EyeHeightAsPercent(_) if let VrcType::Float(v) = value => {
                 VRChatEvent::EyeHeightAsPercent(*v)
             }
-            VRChatEvent::Int(name, _) if let OscType::Int(v) = value => {
-                VRChatEvent::Int(name.clone(), *v as u8)
+            VRChatEvent::Int(name, _) if let VrcType::Int(v) = value => {
+                VRChatEvent::Int(name.clone(), *v)
             }
-            VRChatEvent::Float(name, _) if let OscType::Float(v) = value => {
+            VRChatEvent::Float(name, _) if let VrcType::Float(v) = value => {
                 VRChatEvent::Float(name.clone(), *v)
             }
-            VRChatEvent::Bool(name, _) if let OscType::Bool(v) = value => {
+            VRChatEvent::Bool(name, _) if let VrcType::Bool(v) = value => {
                 VRChatEvent::Bool(name.clone(), *v)
             }
             _ => panic!("Invalid value type: {:?}", value),
@@ -153,11 +156,12 @@ impl From<OscMessage> for VRChatEvent {
         // parse string into initial VRChatEvent (without value)
         let vrchat_event_result = addr.parse::<VRChatEvent>();
         // extract value from args
-        let event_value: OscType = msg
+        let event_value = msg
             .args
             .first()
             .expect("Message should have exactly one arg")
             .to_owned();
+        let event_value: VrcType = event_value.into();
 
         match vrchat_event_result {
             // if parsing was successful, set the value and return the event
@@ -167,14 +171,9 @@ impl From<OscMessage> for VRChatEvent {
             }
             // if parsing failed, try to set the addr and value as custom event
             Err(_) => match event_value {
-                OscType::Int(v) => VRChatEvent::Int(addr, v as u8),
-                OscType::Float(v) => VRChatEvent::Float(addr, v),
-                OscType::Bool(v) => VRChatEvent::Bool(addr, v),
-                // value type is not supported
-                _ => panic!(
-                    "Invalid value type: {:?} (only int, float, bool are supported)",
-                    event_value
-                ),
+                VrcType::Int(v) => VRChatEvent::Int(addr, v),
+                VrcType::Float(v) => VRChatEvent::Float(addr, v),
+                VrcType::Bool(v) => VRChatEvent::Bool(addr, v),
             },
         }
     }
