@@ -5,9 +5,6 @@ use tokio::net::UdpSocket;
 
 use crate::vrchat::VrcMessage;
 
-pub const RECV_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 9001);
-pub const SEND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 9000);
-
 pub const BIND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 0);
 
 #[allow(dead_code)]
@@ -23,17 +20,17 @@ pub struct VrchatClient {
 ///  - receive from vrchat: 127.0.0.1:9001
 impl Default for VrchatClient {
     fn default() -> Self {
-        Self::new(SEND_ADDR, RECV_ADDR)
+        Self::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 9000, 9001)
     }
 }
 
 impl VrchatClient {
-    pub fn new(send_addr: SocketAddr, recv_addr: SocketAddr) -> Self {
+    pub fn new(ip: IpAddr, send_port: u16, recv_port: u16) -> Self {
         Self {
             send_socket: None,
             recv_socket: None,
-            send_addr,
-            recv_addr,
+            send_addr: SocketAddr::new(ip, send_port),
+            recv_addr: SocketAddr::new(ip, recv_port),
         }
     }
 
