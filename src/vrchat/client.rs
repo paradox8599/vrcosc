@@ -1,5 +1,6 @@
 use eyre::Result;
 use rosc::OscPacket;
+use serde::Serialize;
 use std::net::{IpAddr, Ipv4Addr, SocketAddr};
 use tokio::net::UdpSocket;
 
@@ -9,10 +10,25 @@ pub const BIND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 
 
 #[allow(dead_code)]
 pub struct VrchatClient {
-    send_socket: Option<UdpSocket>,
-    recv_socket: Option<UdpSocket>,
+    ip: IpAddr,
     send_addr: SocketAddr,
     recv_addr: SocketAddr,
+    send_socket: Option<UdpSocket>,
+    recv_socket: Option<UdpSocket>,
+}
+
+impl Serialize for VrchatClient {
+    fn serialize<S>(&self, serializer: S) -> std::result::Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&format!(
+            "{{\"ip\":\"{}\",\"send_port\":{},\"recv_port\":{}}}",
+            self.ip,
+            self.send_addr.port(),
+            self.recv_addr.port()
+        ))
+    }
 }
 
 /// Create a [VrchatClient] using default addresses and ports
@@ -27,6 +43,7 @@ impl Default for VrchatClient {
 impl VrchatClient {
     pub fn new(ip: IpAddr, send_port: u16, recv_port: u16) -> Self {
         Self {
+            ip,
             send_socket: None,
             recv_socket: None,
             send_addr: SocketAddr::new(ip, send_port),
