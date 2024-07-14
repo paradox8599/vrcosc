@@ -27,4 +27,3 @@ impl From<VrcType> for OscType {
         }
     }
 }
-
