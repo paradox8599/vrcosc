@@ -1,20 +1,46 @@
 use eyre::Result;
 use rosc::OscPacket;
 use serde::Serialize;
-use std::net::{IpAddr, Ipv4Addr, SocketAddr};
+use std::{
+    fmt::Display,
+    net::{IpAddr, Ipv4Addr, SocketAddr},
+};
 use tokio::net::UdpSocket;
 
 use crate::vrchat::VrcMessage;
 
 pub const BIND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 0);
 
-#[allow(dead_code)]
 pub struct VrchatClient {
-    ip: IpAddr,
-    send_addr: SocketAddr,
-    recv_addr: SocketAddr,
+    pub ip: IpAddr,
+    pub send_addr: SocketAddr,
+    pub recv_addr: SocketAddr,
     send_socket: Option<UdpSocket>,
     recv_socket: Option<UdpSocket>,
+}
+
+impl VrchatClient {
+    pub fn json(&self) -> serde_json::Value {
+        serde_json::json!({
+            "ip": self.ip,
+            "send_port": self.send_port(),
+            "recv_port": self.recv_port()
+        })
+    }
+
+    pub fn send_port(&self) -> u16 {
+        self.send_addr.port()
+    }
+
+    pub fn recv_port(&self) -> u16 {
+        self.recv_addr.port()
+    }
+}
+
+impl Display for VrchatClient {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.json())
+    }
 }
 
 impl Serialize for VrchatClient {
@@ -22,12 +48,7 @@ impl Serialize for VrchatClient {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&format!(
-            "{{\"ip\":\"{}\",\"send_port\":{},\"recv_port\":{}}}",
-            self.ip,
-            self.send_addr.port(),
-            self.recv_addr.port()
-        ))
+        serializer.serialize_str(&format!("{}", self.json()))
     }
 }
 
