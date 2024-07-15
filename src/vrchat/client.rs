@@ -11,6 +11,7 @@ use crate::vrchat::VrcMessage;
 
 pub const BIND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 0);
 
+#[derive(Debug)]
 pub struct VrchatClient {
     pub ip: IpAddr,
     pub send_addr: SocketAddr,
