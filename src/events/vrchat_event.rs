@@ -1,7 +1,7 @@
 use rosc::OscMessage;
 use strum::{EnumString, VariantNames};
 
-use crate::vrchat::vrc_type::VrcType;
+use crate::vrc_type::VrcType;
 
 use super::{Gesture, TrackingType, Upright, Viseme};
 

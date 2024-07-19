@@ -1,6 +1,7 @@
 use rosc::OscType;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum VrcType {
     Int(u8),
     Float(f32),

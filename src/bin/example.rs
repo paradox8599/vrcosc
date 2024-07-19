@@ -1,7 +1,7 @@
 use std::{str::FromStr, sync::Arc, time::Duration};
 
 use eyre::Result;
-use vrcosc::vrchat::client::VrchatClient;
+use vrcosc::client::VrchatClient;
 
 #[tokio::main]
 async fn main() -> Result<()> {

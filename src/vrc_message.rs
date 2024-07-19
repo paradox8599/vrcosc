@@ -1,8 +1,9 @@
 use rosc::OscMessage;
+use serde::{Deserialize, Serialize};
 
-use crate::vrchat::vrc_type::VrcType;
+use crate::vrc_type::VrcType;
 
-#[derive(Debug)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VrcMessage {
     pub addr: String,
     pub value: VrcType,
