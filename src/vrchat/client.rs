@@ -7,7 +7,7 @@ use std::{
 };
 use tokio::net::UdpSocket;
 
-use crate::vrchat::VrcMessage;
+use super::vrc_message::VrcMessage;
 
 pub const BIND_ADDR: SocketAddr = SocketAddr::new(IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1)), 0);
 

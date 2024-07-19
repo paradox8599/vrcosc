@@ -1,6 +1,6 @@
 use rosc::OscMessage;
 
-use crate::VrcType;
+use crate::vrchat::vrc_type::VrcType;
 
 #[derive(Debug)]
 pub struct VrcMessage {

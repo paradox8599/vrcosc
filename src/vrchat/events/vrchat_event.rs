@@ -1,10 +1,9 @@
 use rosc::OscMessage;
 use strum::{EnumString, VariantNames};
 
-use crate::{
-    vrchat::{Gesture, TrackingType, Upright, Viseme},
-    VrcType,
-};
+use crate::vrchat::vrc_type::VrcType;
+
+use super::{Gesture, TrackingType, Upright, Viseme};
 
 /// Avatar Parameters
 /// https://creators.vrchat.com/avatars/animator-parameters/#parameters
